@@ -6,7 +6,7 @@
 # Austin Wang, Berthy T. Feng, Caifeng Zou, Yu Sun, Nikola Kovachki,
 # Zachary E. Ross, Katherine L. Bouman, and Yisong Yue.
 # SPDX-License-Identifier: MIT
-# See LICENSE for the full license text and NOTICE.md for further attribution.
+# See LICENSE for the full license text.
 # Modified for the RDP implementation.
 
 import torch

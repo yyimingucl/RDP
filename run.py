@@ -6,7 +6,7 @@
 # Austin Wang, Berthy T. Feng, Caifeng Zou, Yu Sun, Nikola Kovachki,
 # Zachary E. Ross, Katherine L. Bouman, and Yisong Yue.
 # SPDX-License-Identifier: MIT
-# See LICENSE for the full license text and NOTICE.md for further attribution.
+# See LICENSE for the full license text.
 # Modified for the RDP implementation.
 
 """Run one task with DPS, LGD, or PiGDM; see demo.ipynb for a comparison."""
@@ -14,6 +14,7 @@
 import argparse
 import copy
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -29,7 +30,7 @@ from rdp.samplers.lgd import LGD
 from rdp.samplers.pigdm import PiGDM
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(os.path.relpath(Path(__file__).parent))
 SAMPLERS = {"dps": DPS, "lgd": LGD, "pigdm": PiGDM}
 OPERATORS = {"scattering": InverseScattering, "deblur": GaussianBlur,
              "inpaint": Inpainting, "phase": PhaseRetrieval}
@@ -61,14 +62,17 @@ def image_space(tensor, config):
 def run(config, sampler="dps", seed=0, num_samples=1, output=None, device=None, save_every=0):
     from evaluate import image_metrics, write_metrics
 
+    config = copy.deepcopy(config)
+    config["data"]["root"] = os.path.relpath(config["data"]["root"])
+    config["checkpoint"] = os.path.relpath(config["checkpoint"])
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     seed_all(seed)
     operator = make_operator(config, device)
     net = load_model(config["checkpoint"], config["model"], device)
     algorithm = SAMPLERS[sampler](net, operator, **config["samplers"][sampler])
     dataset = TestData(**config["data"])
-    output = Path(output or ROOT / "results" / config["operator"]["kind"] / sampler /
-                  config["noise"]["name"] / config["guidance"]["kind"])
+    output = Path(os.path.relpath(output or ROOT / "results" / config["operator"]["kind"] / sampler /
+                                 config["noise"]["name"] / config["guidance"]["kind"]))
     output.mkdir(parents=True, exist_ok=True)
     saved_config = dict(config, sampler=sampler, seed=seed, num_samples=num_samples)
     (output / "config.yaml").write_text(yaml.safe_dump(saved_config, sort_keys=False))
