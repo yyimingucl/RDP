@@ -1,0 +1,25 @@
+# Portions of this file are adapted from InverseBench:
+# https://github.com/devzhk/InverseBench
+# Original source: configs/algorithm/dps.yaml; lgd.yaml; pigdm.yaml
+#
+# Copyright (c) 2025 Hongkai Zheng, Wenda Chu, Bingliang Zhang, Zihui Wu,
+# Austin Wang, Berthy T. Feng, Caifeng Zou, Yu Sun, Nikola Kovachki,
+# Zachary E. Ross, Katherine L. Bouman, and Yisong Yue.
+# SPDX-License-Identifier: MIT
+# See LICENSE for the full license text and NOTICE.md for further attribution.
+# Modified for the RDP implementation.
+
+dps:
+  num_steps: 1000
+  guidance_scale: 10.0
+  sde: true
+lgd:
+  num_steps: 1000
+  guidance_scale: 10.0
+  mc_samples: 3
+  sde: true
+pigdm:
+  num_steps: 100
+  eta: 0.2
+  cg_iterations: 50
+  cg_tolerance: 1.0e-6

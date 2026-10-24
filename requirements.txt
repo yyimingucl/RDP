@@ -1,0 +1,11 @@
+torch==2.4.1
+torchvision==0.19.1
+numpy>=1.26,<3
+scipy>=1.11,<2
+Pillow>=10
+PyYAML>=6
+lmdb>=1.4
+piq==0.8.0
+tqdm>=4.65
+matplotlib>=3.8
+notebook>=7

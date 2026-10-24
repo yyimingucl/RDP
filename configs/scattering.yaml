@@ -1,0 +1,40 @@
+# Portions of this file are adapted from InverseBench:
+# https://github.com/devzhk/InverseBench
+# Original source: configs/problem/inv-scatter.yaml
+#
+# Copyright (c) 2025 Hongkai Zheng, Wenda Chu, Bingliang Zhang, Zihui Wu,
+# Austin Wang, Berthy T. Feng, Caifeng Zou, Yu Sun, Nikola Kovachki,
+# Zachary E. Ross, Katherine L. Bouman, and Yisong Yue.
+# SPDX-License-Identifier: MIT
+# See LICENSE for the full license text and NOTICE.md for further attribution.
+# Modified for the RDP implementation.
+
+model: scattering
+checkpoint: checkpoints/inv-scatter-5m.pt
+data:
+  root: data/inv-scatter-test
+  kind: lmdb
+  resolution: 128
+  ids: '0'
+  mean: 0.5
+  std: 0.25
+operator:
+  kind: scattering
+  Lx: 0.18
+  Ly: 0.18
+  Nx: 128
+  Ny: 128
+  wave: 6
+  numRec: 360
+  numTrans: 20
+  sensorRadius: 1.6
+noise:
+  name: gaussian
+  sigma_noise: 0.001
+  df: 2.2
+  outlier_fraction: 0.05
+  outlier_magnitude_factor: 50.0
+guidance:
+  kind: none
+  quantile: 0.95
+  power: 1

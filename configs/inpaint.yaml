@@ -1,0 +1,33 @@
+# Portions of this file are adapted from InverseBench:
+# https://github.com/devzhk/InverseBench
+# Original source: configs/problem/ffhq256_inpaint.yaml
+#
+# Copyright (c) 2025 Hongkai Zheng, Wenda Chu, Bingliang Zhang, Zihui Wu,
+# Austin Wang, Berthy T. Feng, Caifeng Zou, Yu Sun, Nikola Kovachki,
+# Zachary E. Ross, Katherine L. Bouman, and Yisong Yue.
+# SPDX-License-Identifier: MIT
+# See LICENSE for the full license text and NOTICE.md for further attribution.
+# Modified for the RDP implementation.
+
+model: ffhq
+checkpoint: checkpoints/ffhq256.pt
+data:
+  root: data/ffhq256
+  kind: images
+  resolution: 256
+  ids: '0'
+operator:
+  kind: inpaint
+  resolution: 256
+  mask_len_range: [105, 180]
+noise:
+  name: gaussian
+  sigma_noise: 0.1
+  df: 2.2
+  outlier_fraction: 0.01
+  outlier_magnitude_factor: 30.0
+guidance:
+  kind: none
+  quantile: 0.95
+  power: 1
+  per_sample: true
